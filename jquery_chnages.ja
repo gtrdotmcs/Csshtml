@@ -1,0 +1,18 @@
+$(document).ready(function(){
+
+$("#noact").click(function(){
+    alert("hi");
+    $("#act").prop("class","noactive");
+	$("#act").prop("id","noact");
+	$("#noact").prop("class","active");
+	$("#noact").prop("id","act");
+	
+});
+/*
+var $itemsThatHasIdDuplicate = $('[id]').filter(function () {
+    return $('[id="' + this.id + '"]').length > 1;
+});
+
+alert($("#noact").length);
+*/
+});
