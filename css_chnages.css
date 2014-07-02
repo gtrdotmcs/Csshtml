@@ -1,0 +1,15 @@
+Added in pro+++.css
+
+.side-left#main{
+    height: 520px;
+    border: 0px solid green;
+    width: 320px;
+    overflow: hidden;
+}
+
+div#child{
+    width: 100%;
+    overflow: auto;
+    height: 100%;
+    padding-right: 15px;
+}
