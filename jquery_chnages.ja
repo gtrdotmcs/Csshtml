@@ -1,18 +1,83 @@
 $(document).ready(function(){
 
-$("#noact").click(function(){
-    alert("hi");
-    $("#act").prop("class","noactive");
-	$("#act").prop("id","noact");
-	$("#noact").prop("class","active");
-	$("#noact").prop("id","act");
-	
-});
-/*
-var $itemsThatHasIdDuplicate = $('[id]').filter(function () {
-    return $('[id="' + this.id + '"]').length > 1;
+var active_main_tab = ""
+
+$('li.mainprocess').on("click",function(){
+	//This function work on "Processor List" tabs
+	// As they shift fwd and bkwd moves 
+  var is_proccess_active = $(this).attr("class");
+  if (is_proccess_active.indexOf("tab_noactive")> -1 ){
+  $(".tab_active").prop("class","tab_noactive");
+	$(this).prop("class","tab_active");
+  active_main_tab = this.id;
+  //console.log(active_main_tab);
+  var first_link_active = $( this ).find( "li.tablink" ).first();
+  $("ul.margin-top-10").removeClass("active");
+  $( this ).find( "ul.margin-top-10" ).first().addClass("active");
+  dispaly_details_of_process_list(this,active_main_tab);
+  tab_link_highlight(first_link_active);
+ }
 });
 
-alert($("#noact").length);
-*/
+$(".tablink").on("click",function( event ){
+ var whatis = $(this).parent().attr("class");
+ tab_link_highlight(this, active_main_tab); 
+ if(whatis.indexOf("active") > -1 ){
+ event.stopPropagation();
+}
 });
+
+$( ".menutab" ).click(function(event) {
+display_process_list_tabs(this,active_main_tab);
+event.stopPropagation();
+});
+
+
+});
+
+function dispaly_details_of_process_list(activeprocces_tab,active_main_tab){
+  // This used to hide and show tabs for the process maintab 
+ $(".processor-information-mainwrapper").hide();
+ var show_proccess_of_tab = "#"+active_main_tab+"_tabpreview"
+ $(show_proccess_of_tab).show();
+ //console.log(show_proccess_of_tab,"hereindsaiply");
+ var default_preview_tab = $(show_proccess_of_tab).find("li.menutab").first();
+ display_process_list_tabs(default_preview_tab,active_main_tab)
+
+
+}
+
+function tab_link_highlight(tablink_tag,active_main_tab){
+  /*
+  It highlight link that is active from within the process tab list
+  */
+  $(".tablink").removeClass("active");
+  $(tablink_tag).addClass("active");
+  var tab_link_anchor = $(tablink_tag).children()[0]; 
+  $("#activelink_intab").text(" - "+tab_link_anchor.text);
+  var display_link_tab = "#"+$(tablink_tag).attr("id")+"_linkwrap"
+  $(".processor-information-linkwrapper").hide();
+  $(display_link_tab).show();
+  display_process_list_tabs(display_link_tab,active_main_tab)
+
+}
+
+
+function display_process_list_tabs(details_tobeactive,active_main_tab){
+ /* this code works on to the menu tab 
+    i.e the when we click on "process List" tab it display menu tab related
+    And the when we click on tabs shuch as "Debit,credit,etc.." 
+    */
+  $('li[class^="menutab"]').each(function(){
+    var isclasshasactive = $(this).attr("class");
+    $(this).removeClass("active");
+  });
+  $( details_tobeactive ).addClass( "active" ); // sctivated the tab in menu
+  var active_details = "#"+active_main_tab+"_"+$(details_tobeactive).attr("id");
+  //console.log(active_details);
+  $(".dispalyme").hide();//("dispaly:none;");
+  //display_active_tabs($("#"+active_details));
+  //console.log(active_details);
+  $(active_details).show();//css("dispaly:block;"); 
+
+}
